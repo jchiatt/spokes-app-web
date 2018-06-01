@@ -9,8 +9,6 @@ import Today from './screens/Today';
 import Forecast from './screens/Forecast';
 import Preferences from './screens/Preferences';
 
-import './App.css';
-
 class App extends Component {
 
   render() {
