@@ -14,13 +14,24 @@ import Preferences from './screens/Preferences';
 class App extends Component {
 
   state = {
+    current_condition: {},
     loggedIn: false,
+    forecast: []
   }
 
   handleSession = () => {
     this.setState({
       loggedIn: !this.state.loggedIn
     })
+  }
+
+  updateWeather = ( data ) => {
+    this.setState({
+      current_condition: data.current_condition[0],
+      forecast: data.weather
+    })
+
+    console.log(this.state.forecast)
   }
 
   render() {
@@ -47,7 +58,16 @@ class App extends Component {
             <hr />
           </header>
 
-          <Route exact path="/" component={() => <Today loggedIn={this.state.loggedIn} handleSession={this.handleSession} />} />
+          <Route 
+            exact 
+            path="/" 
+            component={() => <Today 
+              current_condition={this.state.current_condition}
+              forecast={this.state.forecast}
+              loggedIn={this.state.loggedIn} 
+              handleSession={this.handleSession} 
+              updateWeather={this.updateWeather}
+          />} />
           <Route path="/forecast" component={Forecast} />
           <Route path="/preferences" component={Preferences} />
         </div>
