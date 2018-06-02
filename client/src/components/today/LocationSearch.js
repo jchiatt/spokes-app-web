@@ -12,6 +12,7 @@ export default class LocationSearch extends Component {
     zip: ''
   }
 
+  // Update 'zip' in state as long as the input is a number
   updateZip = ( event ) => {
     !isNaN(event.target.value) ? this.setState( { zip: event.target.value }) : console.log(event.target.value = " is not a number");
   }
@@ -19,14 +20,19 @@ export default class LocationSearch extends Component {
   handleZipSubmit = ( event ) => {
     event.preventDefault();
     
+    // API info. Would move this to the backend in production
     const API_BASE  = "https://api.worldweatheronline.com/premium/v1/weather.ashx";
     const API_KEY   = "dac7582d3a0c433db2c25733180206";
     
+    // Get current weather and 7 day forecast from API
     const getZipWeather = async () => { 
       try {
         const data = await axios.get(API_BASE + "?key=" + API_KEY + "&q=" + this.state.zip + "&num_of_days=7&format=json")
 
+        // Update state with weather data
         this.props.updateWeather( data.data.data );
+
+        // Log in the user
         this.props.handleSession();
 
       } catch ( err ) {

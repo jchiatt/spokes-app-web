@@ -10,17 +10,22 @@ class Status extends Component {
   }
 
   render() {
+    // Grab variables out of props
     const {temp_F, temp_C, windspeedMiles } = this.props.current_condition
     const { maxtempF, maxtempC, mintempF, mintempC } = this.props.forecast
 
+    // API only contains rain chance inside of hourly data, so we have to add all the hourly chances up to get the average chance for the day (which is probably not how weather actually works, but this is a demo ¯\_(ツ)_/¯)
     const calculateRainChance = () => {
     
+      // Grab all the rain chances from each hourly array
       const rainChancesTotal = this.props.forecast.hourly.reduce( function( total, current ) {
         return total + parseInt(current.chanceofrain, 10)
       }, 0)
         
+      // Calculate today's rain chance
       const rainChance = Math.ceil( rainChancesTotal / this.props.forecast.hourly.length )
       
+      // Decide what message to show the user, based on today's chance of rain
       switch( rainChance ) {
         case ( rainChance === 0 ) :
           return "No rain today!"

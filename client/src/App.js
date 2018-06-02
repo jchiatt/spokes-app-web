@@ -19,19 +19,19 @@ class App extends Component {
     forecast: []
   }
 
+  // A fake-it function to handle login/logout. Could be used for actual auth later on.
   handleSession = () => {
     this.setState({
       loggedIn: !this.state.loggedIn
     })
   }
 
+  // Updates the state of weather conditions after a ZIP is searched
   updateWeather = ( data ) => {
     this.setState({
       current_condition: data.current_condition[0],
       forecast: data.weather
     })
-
-    console.log(this.state.forecast)
   }
 
   render() {
