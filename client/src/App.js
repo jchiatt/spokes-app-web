@@ -5,6 +5,8 @@ import {
   Link
 } from 'react-router-dom';
 
+import logo from './logo.svg';
+
 import Today from './screens/Today';
 import Forecast from './screens/Forecast';
 import Preferences from './screens/Preferences';
@@ -25,24 +27,27 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <ul>
-            <li><Link to="/">Today</Link></li>
-            <li><Link to="/forecast">Forecast</Link></li>
-            <li><Link to="preferences">Preferences</Link></li>
-          </ul>
+          <header>
+            <img src={logo} alt="logo" />
+            <ul>
+              <li><Link to="/">Today</Link></li>
+              <li><Link to="/forecast">Forecast</Link></li>
+              <li><Link to="preferences">Preferences</Link></li>
+            </ul>
+            
+            <ul>
+              {!this.state.loggedIn && 
+                <li onClick={this.handleSession}>Log in</li>
+              }
+              {this.state.loggedIn &&
+                <li onClick={this.handleSession}>Log out</li>
+              }
+            </ul>
 
-          <ul>
-            {!this.state.loggedIn && 
-              <li onClick={this.handleSession}>Log in</li>
-            }
-            {this.state.loggedIn &&
-              <li onClick={this.handleSession}>Log out</li>
-            }
-          </ul>
+            <hr />
+          </header>
 
-          <hr />
-
-          <Route exact path="/" component={() => <Today loggedIn={this.state.loggedIn} />} />
+          <Route exact path="/" component={() => <Today loggedIn={this.state.loggedIn} handleSession={this.handleSession} />} />
           <Route path="/forecast" component={Forecast} />
           <Route path="/preferences" component={Preferences} />
         </div>

@@ -4,7 +4,6 @@ import Status from '../components/today/Status';
 import LocationSearch from '../components/today/LocationSearch';
 
 class Today extends Component {
-  
   render() {
     return(
       <div>
@@ -12,7 +11,7 @@ class Today extends Component {
         {!this.props.loggedIn &&
           <div>
             <p>Enter your Zip code to get started</p>
-            <LocationSearch />
+            <LocationSearch handleSession={this.props.handleSession} />
           </div>
         }
 
