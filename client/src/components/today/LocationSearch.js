@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import Overdrive from 'react-overdrive';
 
 export default class LocationSearch extends Component {
   static propTypes = {
@@ -47,24 +46,22 @@ export default class LocationSearch extends Component {
 
   render() {
     return (
-      <Overdrive id="page">
-        <div>
-          <form onSubmit={this.handleZipSubmit}>
-            <label htmlFor="zip-input">Zip code:
-              <input
-                name="zip-input"
-                type="text"
-                pattern="[0-9]{5}"
-                value={this.state.zip}
-                onChange={this.updateZip}
-                autoFocus
-              />
-            </label>
+      <div>
+        <form onSubmit={this.handleZipSubmit}>
+          <label htmlFor="zip-input">Zip code:
+            <input
+              name="zip-input"
+              type="text"
+              pattern="[0-9]{5}"
+              value={this.state.zip}
+              onChange={this.updateZip}
+              autoFocus
+            />
+          </label>
 
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      </Overdrive>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     );
   }
 }

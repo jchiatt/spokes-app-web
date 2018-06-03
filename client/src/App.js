@@ -45,22 +45,26 @@ class App extends Component {
             <Route
               exact
               path="/"
-              component={() => (<Today
-                current_condition={this.state.current_condition}
-                forecast={this.state.forecast}
-                loggedIn={this.state.loggedIn}
-                handleSession={this.handleSession}
-                updateWeather={this.updateWeather}
-              />)}
+              component={() => (
+                <Today
+                  current_condition={this.state.current_condition}
+                  forecast={this.state.forecast}
+                  loggedIn={this.state.loggedIn}
+                  handleSession={this.handleSession}
+                  updateWeather={this.updateWeather}
+                />)}
             />
-            {this.state.loggedIn ?
-              <Route path="/forecast" component={Forecast} /> :
+            {this.state.loggedIn ? (
+              <Route path="/forecast" component={Forecast} />
+            ) : (
               <Redirect to="/" />
-            }
-            {this.state.loggedIn ?
-              <Route path="/preferences" component={Preferences} /> :
+            )}
+            {this.state.loggedIn ? (
+              <Route path="/preferences" component={Preferences} />
+            ) : (
               <Redirect to="/" />
-            }
+            )}
+
           </Switch>
         </div>
       </Router>
