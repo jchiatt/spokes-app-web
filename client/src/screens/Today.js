@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import Status from '../components/today/Status';
 import LocationSearch from '../components/today/LocationSearch';
 
 const Today = ( { current_condition, forecast, loggedIn, handleSession, updateWeather } ) => (
-  <div>
+  <TodayContainer>
     <h1>Today</h1>
     {!loggedIn &&
       <div>
@@ -24,7 +25,7 @@ const Today = ( { current_condition, forecast, loggedIn, handleSession, updateWe
       />
     }
 
-  </div>
+  </TodayContainer>
 );
 
 export default Today;
@@ -36,3 +37,9 @@ Today.propTypes = {
   handleSession: PropTypes.func.isRequired,
   updateWeather: PropTypes.func.isRequired,
 };
+
+const TodayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

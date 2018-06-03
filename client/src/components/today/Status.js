@@ -18,7 +18,6 @@ class Status extends Component {
       
     // Calculate today's rain chance
     const rainChance = Math.ceil( rainChancesTotal / this.props.forecast.hourly.length )
-    rainChance > 0 && rainChance < 20 ? console.log("true") : console.log(false)
 
     // Decide what message to show the user, based on today's chance of rain
     let rainMessage;
