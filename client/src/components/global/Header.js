@@ -20,7 +20,7 @@ const Header = ({ handleSession, loggedIn }) => (
         <ul>
           <li><Link to="/">Today</Link></li>
           <li><Link to="/forecast">Forecast</Link></li>
-          <li><Link to="preferences">Preferences</Link></li>
+          <li><Link to="/preferences">Preferences</Link></li>
           <li onClick={handleSession}>Log out</li>
         </ul>
       </Nav>
@@ -69,10 +69,15 @@ const Nav = styled.nav`
     padding: 0;
     list-style: none;
 
-    a {
+    a, li {
       text-decoration: none;
       font-weight: bold;
       color: #fff;
+
+      &:hover, {
+        color: #6c5ce7;
+        cursor: pointer;
+      }
     }
   }
 `;

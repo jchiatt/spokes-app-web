@@ -1,9 +1,10 @@
 import React from 'react';
+import Overdrive from 'react-overdrive';
 
 import Day from '../components/global/Day';
 
-const Forecast = () => {
-  return (
+const Forecast = () => (
+  <Overdrive id="page">
     <div>
       <h1>Forecast</h1>
 
@@ -19,7 +20,7 @@ const Forecast = () => {
       <Day />
 
     </div>
-  )
-}
+  </Overdrive>
+);
 
 export default Forecast;

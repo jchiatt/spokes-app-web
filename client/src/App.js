@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -52,8 +53,14 @@ class App extends Component {
                 updateWeather={this.updateWeather}
               />)}
             />
-            <Route path="/forecast" component={Forecast} />
-            <Route path="/preferences" component={Preferences} />
+            {this.state.loggedIn ?
+              <Route path="/forecast" component={Forecast} /> :
+              <Redirect to="/" />
+            }
+            {this.state.loggedIn ?
+              <Route path="/preferences" component={Preferences} /> :
+              <Redirect to="/" />
+            }
           </Switch>
         </div>
       </Router>
