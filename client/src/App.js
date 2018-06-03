@@ -4,12 +4,10 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch,
 } from 'react-router-dom';
 
-import logo from './logo.svg';
-
+import Header from './components/global/Header';
 import Today from './screens/Today';
 import Forecast from './screens/Forecast';
 import Preferences from './screens/Preferences';
@@ -40,22 +38,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <header>
-            <Link to="/">
-              <img src={logo} alt="logo" />
-            </Link>
-
-            {this.state.loggedIn &&
-              <ul>
-                <li><Link to="/">Today</Link></li>
-                <li><Link to="/forecast">Forecast</Link></li>
-                <li><Link to="preferences">Preferences</Link></li>
-                <li onClick={this.handleSession}>Log out</li>
-              </ul>
-            }
-
-            <hr />
-          </header>
+          <Header handleSession={this.handleSession} loggedIn={this.state.loggedIn} />
 
           <Switch>
             <Route

@@ -9,41 +9,48 @@ class Status extends Component {
     forecast: PropTypes.object.isRequired
   }
 
+  // API only contains rain chance inside of hourly data, so we have to add all the hourly chances up to get the average chance for the day (which is probably not how weather actually works, but this is a demo ¯\_(ツ)_/¯)
+  calculateRainChance = () => {
+    // Grab all the rain chances from each hourly array
+    const rainChancesTotal = this.props.forecast.hourly.reduce( function( total, current ) {
+      return total + parseInt(current.chanceofrain, 10)
+    }, 0)
+      
+    // Calculate today's rain chance
+    const rainChance = Math.ceil( rainChancesTotal / this.props.forecast.hourly.length )
+    rainChance > 0 && rainChance < 20 ? console.log("true") : console.log(false)
+
+    // Decide what message to show the user, based on today's chance of rain
+    let rainMessage;
+
+    switch( true ) {
+      case rainChance === 0 :
+        rainMessage = "No rain today!";
+        break;
+      case rainChance > 0 && rainChance < 20 :
+        rainMessage = "Rain is highly unlikely.";
+        break;
+      case rainChance > 20 && rainChance < 50 :
+        rainMessage = "It may rain today.";
+        break;
+      case rainChance > 50 && rainChance < 80 :
+        rainMessage = "There's a good chance it'll rain today.";
+        break;
+      case rainChance >= 80 :
+        rainMessage = "It's probably going to rain today.";
+        break;
+      default:
+        break;
+    }
+    
+    return rainMessage;
+  }
+
   render() {
     // Grab variables out of props
     const {temp_F, temp_C, windspeedMiles } = this.props.current_condition
     const { maxtempF, maxtempC, mintempF, mintempC } = this.props.forecast
-
-    // API only contains rain chance inside of hourly data, so we have to add all the hourly chances up to get the average chance for the day (which is probably not how weather actually works, but this is a demo ¯\_(ツ)_/¯)
-    const calculateRainChance = () => {
-    
-      // Grab all the rain chances from each hourly array
-      const rainChancesTotal = this.props.forecast.hourly.reduce( function( total, current ) {
-        return total + parseInt(current.chanceofrain, 10)
-      }, 0)
-        
-      // Calculate today's rain chance
-      const rainChance = Math.ceil( rainChancesTotal / this.props.forecast.hourly.length )
-      
-      // Decide what message to show the user, based on today's chance of rain
-      switch( rainChance ) {
-        case ( rainChance === 0 ) :
-          return "No rain today!"
-        case ( rainChance > 0 && rainChance < 20 ) :
-          return "Rain is highly unlikely."
-        case ( rainChance > 20 && rainChance < 50 ) :
-          return "It may rain today."
-        case ( rainChance > 50 && rainChance < 80 ) :
-          return "There's a good chance it'll rain today."
-        case ( rainChance >= 80 ) :
-          return "It's probably going to rain today."
-        default :
-          break
-      }
-      
-    }
-
-    calculateRainChance();
+    const rainMessage = this.calculateRainChance();
     
     return(
       <div>
@@ -57,7 +64,7 @@ class Status extends Component {
         <p>Current wind speed is {windspeedMiles} mph</p>
   
         <h3>Precipitation</h3>
-        <p>Precipitation is highly unlikely.</p>
+        <p>{rainMessage}</p>
   
         <Rank />
       </div>
