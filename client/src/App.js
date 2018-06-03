@@ -1,8 +1,11 @@
+/* eslint jsx-a11y/anchor-is-valid: 0 */
+
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Link,
+  Switch,
 } from 'react-router-dom';
 
 import logo from './logo.svg';
@@ -38,38 +41,37 @@ class App extends Component {
       <Router>
         <div>
           <header>
-            <img src={logo} alt="logo" />
-            <ul>
-              <li><Link to="/">Today</Link></li>
-              <li><Link to="/forecast">Forecast</Link></li>
-              <li><Link to="preferences">Preferences</Link></li>
-            </ul>
+            <Link to="/">
+              <img src={logo} alt="logo" />
+            </Link>
 
-            <ul>
-              {!this.state.loggedIn &&
-                <li onClick={this.handleSession}>Log in</li>
-              }
-              {this.state.loggedIn &&
+            {this.state.loggedIn &&
+              <ul>
+                <li><Link to="/">Today</Link></li>
+                <li><Link to="/forecast">Forecast</Link></li>
+                <li><Link to="preferences">Preferences</Link></li>
                 <li onClick={this.handleSession}>Log out</li>
-              }
-            </ul>
+              </ul>
+            }
 
             <hr />
           </header>
 
-          <Route
-            exact
-            path="/"
-            component={() => (<Today
-              current_condition={this.state.current_condition}
-              forecast={this.state.forecast}
-              loggedIn={this.state.loggedIn}
-              handleSession={this.handleSession}
-              updateWeather={this.updateWeather}
-            />)}
-          />
-          <Route path="/forecast" component={Forecast} />
-          <Route path="/preferences" component={Preferences} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={() => (<Today
+                current_condition={this.state.current_condition}
+                forecast={this.state.forecast}
+                loggedIn={this.state.loggedIn}
+                handleSession={this.handleSession}
+                updateWeather={this.updateWeather}
+              />)}
+            />
+            <Route path="/forecast" component={Forecast} />
+            <Route path="/preferences" component={Preferences} />
+          </Switch>
         </div>
       </Router>
     );
