@@ -51,7 +51,7 @@ class App extends Component {
                   path="/"
                   component={() => (
                     <Today
-                      current_condition={this.state.current_condition}
+                      currentCondition={this.state.current_condition}
                       forecast={this.state.forecast}
                       loggedIn={this.state.loggedIn}
                     />)}

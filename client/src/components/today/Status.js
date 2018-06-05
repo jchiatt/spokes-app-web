@@ -5,7 +5,7 @@ import Rank from './Rank';
 
 class Status extends Component {
   static propTypes = {
-    current_condition: PropTypes.shape({
+    currentCondition: PropTypes.shape({
       temp_F: PropTypes.Int,
       temp_C: PropTypes.Int,
       windspeedMiles: PropTypes.Int,
@@ -49,7 +49,7 @@ class Status extends Component {
 
   render() {
     // Grab variables out of props
-    const { temp_F, temp_C, windspeedMiles } = this.props.current_condition;
+    const { temp_F, temp_C, windspeedMiles } = this.props.currentCondition;
     const {
       maxtempF, maxtempC, mintempF, mintempC,
     } = this.props.forecast;
