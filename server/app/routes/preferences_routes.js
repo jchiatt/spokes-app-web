@@ -19,16 +19,16 @@ module.exports = function(app, db) {
     const details = { '_id': new ObjectID(id) };
 
     const preferences = { 
-      maxTempF: req.body.maxTempF,
-      minTempF: req.body.minTempF,
-      maxTempC: req.body.maxTempC,
-      minTempC: req.body.minTempC,
-      maxWindSpeed: req.body.maxWindSpeed,
-      minWindSpeed: req.body.minWindSpeed,
-      maxHumidity: req.body.maxHumidity,
-      minHumidity: req.body.minHumidity,
-      maxRainChance: req.body.maxRainChance,
-      minRainChance: req.body.minRainChance
+      maxTempF: parseInt(req.body.maxTempF, 10),
+      minTempF: parseInt(req.body.minTempF, 10),
+      maxTempC: parseInt(req.body.maxTempC, 10),
+      minTempC: parseInt(req.body.minTempC, 10),
+      maxWindSpeed: parseInt(req.body.maxWindSpeed, 10),
+      minWindSpeed: parseInt(req.body.minWindSpeed, 10),
+      maxHumidity: parseInt(req.body.maxHumidity, 10),
+      minHumidity: parseInt(req.body.minHumidity, 10),
+      maxRainChance: parseInt(req.body.maxRainChance, 10),
+      minRainChance: parseInt(req.body.minRainChance, 10),
     };
 
     db.collection('preferences').update(details, preferences, (err, results) => {
@@ -42,16 +42,16 @@ module.exports = function(app, db) {
   
   app.post('/preferences', (req, res) => {
     const preferences = { 
-      maxTempF: req.body.maxTempF,
-      minTempF: req.body.minTempF,
-      maxTempC: req.body.maxTempC,
-      minTempC: req.body.minTempC,
-      maxWindSpeed: req.body.maxWindSpeed,
-      minWindSpeed: req.body.minWindSpeed,
-      maxHumidity: req.body.maxHumidity,
-      minHumidity: req.body.minHumidity,
-      maxRainChance: req.body.maxRainChance,
-      minRainChance: req.body.minRainChance
+      maxTempF: parseInt(req.body.maxTempF, 10),
+      minTempF: parseInt(req.body.minTempF, 10),
+      maxTempC: parseInt(req.body.maxTempC, 10),
+      minTempC: parseInt(req.body.minTempC, 10),
+      maxWindSpeed: parseInt(req.body.maxWindSpeed, 10),
+      minWindSpeed: parseInt(req.body.minWindSpeed, 10),
+      maxHumidity: parseInt(req.body.maxHumidity, 10),
+      minHumidity: parseInt(req.body.minHumidity, 10),
+      maxRainChance: parseInt(req.body.maxRainChance, 10),
+      minRainChance: parseInt(req.body.minRainChance, 10)
     };
     
     db.collection('preferences').insert(preferences, (err, result) => {

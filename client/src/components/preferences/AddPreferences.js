@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import qs from 'qs';
 
 class AddPreferences extends Component {
   state = {
-    maxTempF: 0,
-    maxTempC: 0,
-    minTempF: 0,
-    minTempC: 0,
-    minWindSpeed: 0,
-    maxWindSpeed: 0,
-    minHumidity: 0,
-    maxHumidity: 0,
-    minRainChance: 0,
-    maxRainChance: 0,
+    maxTempF: '',
+    maxTempC: '',
+    minTempF: '',
+    minTempC: '',
+    minWindSpeed: '',
+    maxWindSpeed: '',
+    minHumidity: '',
+    maxHumidity: '',
+    minRainChance: '',
+    maxRainChance: '',
   }
 
   componentDidMount() {
@@ -31,19 +32,19 @@ class AddPreferences extends Component {
       const data = await axios.get(`${API_BASE}/${prefID}`);
 
       this.setState({
-        maxTempF: parseInt(data.data.maxTempF, 10),
-        maxTempC: parseInt(data.data.maxTempC, 10),
-        minTempF: parseInt(data.data.minTempF, 10),
-        minTempC: parseInt(data.data.minTempC, 10),
-        minWindSpeed: parseInt(data.data.minWindSpeed, 10),
-        maxWindSpeed: parseInt(data.data.maxWindSpeed, 10),
-        minHumidity: parseInt(data.data.minHumidity, 10),
-        maxHumidity: parseInt(data.data.maxHumidity, 10),
-        minRainChance: parseInt(data.data.minRainChance, 10),
-        maxRainChance: parseInt(data.data.maxRainChance, 10),
+        maxTempF: data.data.maxTempF.toString(),
+        maxTempC: data.data.maxTempC,
+        minTempF: data.data.minTempF,
+        minTempC: data.data.minTempC,
+        minWindSpeed: data.data.minWindSpeed,
+        maxWindSpeed: data.data.maxWindSpeed,
+        minHumidity: data.data.minHumidity,
+        maxHumidity: data.data.maxHumidity,
+        minRainChance: data.data.minRainChance,
+        maxRainChance: data.data.maxRainChance,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err); // eslint-disable-line
     }
   }
 
@@ -53,15 +54,15 @@ class AddPreferences extends Component {
 
     try {
       const data = { ...this.state };
-      console.log(data);
       const reqBody = {
         method: 'PUT',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data,
+        data: qs.stringify(data),
         url: `${API_BASE}/${prefID}`,
       };
 
-      axios(reqBody);
+      const response = await axios(reqBody);
+      console.log(response);
     } catch (err) {
       console.log(err);
     }
