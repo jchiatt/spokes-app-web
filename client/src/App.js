@@ -1,5 +1,4 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
-
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
@@ -8,7 +7,10 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import styled from 'styled-components';
+
 import Header from './components/global/Header';
+import Home from './screens/Home';
 import Today from './screens/Today';
 import Forecast from './screens/Forecast';
 import Preferences from './screens/Preferences';
@@ -41,28 +43,39 @@ class App extends Component {
         <div>
           <Header handleSession={this.handleSession} loggedIn={this.state.loggedIn} />
 
-          <Switch>
-            <Route
-              exact
-              path="/"
-              component={() => (
-                <Today
-                  current_condition={this.state.current_condition}
-                  forecast={this.state.forecast}
-                  loggedIn={this.state.loggedIn}
+          <AppContainer>
+            <Switch>
+              {this.state.loggedIn ? (
+                <Route
+                  exact
+                  path="/"
+                  component={() => (
+                    <Today
+                      current_condition={this.state.current_condition}
+                      forecast={this.state.forecast}
+                      loggedIn={this.state.loggedIn}
+                    />)}
+                />
+              ) : (
+                <Home
                   handleSession={this.handleSession}
                   updateWeather={this.updateWeather}
-                />)}
-            />
-            <Route path="/preferences" component={Preferences} />
-            {this.state.loggedIn ? (
-              <Route path="/forecast" component={Forecast} />
-            ) : (
-              <Redirect to="/" />
-            )}
+                />
+              )}
 
+              {this.state.loggedIn ? (
+                <Route path="/forecast" component={Forecast} />
+              ) : (
+                <Redirect to="/" />
+              )}
+              {this.state.loggedIn ? (
+                <Route path="/preferences" component={Preferences} />
+              ) : (
+                <Redirect to="/" />
+              )}
 
-          </Switch>
+            </Switch>
+          </AppContainer>
         </div>
       </Router>
     );
@@ -70,3 +83,10 @@ class App extends Component {
 }
 
 export default App;
+
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

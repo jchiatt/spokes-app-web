@@ -47,6 +47,8 @@ export default class LocationSearch extends Component {
   render() {
     return (
       <div>
+        <p>Enter your Zip code to get started</p>
+
         <form onSubmit={this.handleZipSubmit}>
           <label htmlFor="zip-input">Zip code:
             <input

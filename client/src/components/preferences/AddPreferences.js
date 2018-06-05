@@ -64,7 +64,7 @@ class AddPreferences extends Component {
       const response = await axios(reqBody);
       console.log(response);
     } catch (err) {
-      console.log(err);
+      console.log(err); // eslint-disable-line
     }
   }
 
