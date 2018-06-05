@@ -54,16 +54,13 @@ class App extends Component {
                   updateWeather={this.updateWeather}
                 />)}
             />
+            <Route path="/preferences" component={Preferences} />
             {this.state.loggedIn ? (
               <Route path="/forecast" component={Forecast} />
             ) : (
               <Redirect to="/" />
             )}
-            {this.state.loggedIn ? (
-              <Route path="/preferences" component={Preferences} />
-            ) : (
-              <Redirect to="/" />
-            )}
+
 
           </Switch>
         </div>

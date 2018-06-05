@@ -5,7 +5,11 @@ import Rank from './Rank';
 
 class Status extends Component {
   static propTypes = {
-    current_condition: PropTypes.object.isRequired,
+    current_condition: PropTypes.shape({
+      temp_F: PropTypes.Int,
+      temp_C: PropTypes.Int,
+      windspeedMiles: PropTypes.Int,
+    }).isRequired,
     forecast: PropTypes.object.isRequired,
   }
 

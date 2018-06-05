@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class AddPreferences extends Component {
   state = {
@@ -14,8 +15,56 @@ class AddPreferences extends Component {
     maxRainChance: 0,
   }
 
+  componentDidMount() {
+    this.getPreferences();
+  }
+
   onChange = (key, value) => {
     this.setState({ [key]: value });
+  }
+
+  getPreferences = async () => {
+    const API_BASE = 'http://localhost:8000/preferences';
+    const prefID = '5b15feaa022b3c85cf520a52';
+
+    try {
+      const data = await axios.get(`${API_BASE}/${prefID}`);
+
+      this.setState({
+        maxTempF: parseInt(data.data.maxTempF, 10),
+        maxTempC: parseInt(data.data.maxTempC, 10),
+        minTempF: parseInt(data.data.minTempF, 10),
+        minTempC: parseInt(data.data.minTempC, 10),
+        minWindSpeed: parseInt(data.data.minWindSpeed, 10),
+        maxWindSpeed: parseInt(data.data.maxWindSpeed, 10),
+        minHumidity: parseInt(data.data.minHumidity, 10),
+        maxHumidity: parseInt(data.data.maxHumidity, 10),
+        minRainChance: parseInt(data.data.minRainChance, 10),
+        maxRainChance: parseInt(data.data.maxRainChance, 10),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  savePreferences = async () => {
+    const API_BASE = 'http://localhost:8000/preferences';
+    const prefID = '5b15feaa022b3c85cf520a52';
+
+    try {
+      const data = { ...this.state };
+      console.log(data);
+      const reqBody = {
+        method: 'PUT',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data,
+        url: `${API_BASE}/${prefID}`,
+      };
+
+      axios(reqBody);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
@@ -25,22 +74,22 @@ class AddPreferences extends Component {
           <h2>Temperature Range</h2>
           <input
             value={this.state.maxTempF}
-            onChange={event => this.onChange('maxTempF', parseInt(event.target.value, 10))}
+            onChange={event => this.onChange('maxTempF', event.target.value)}
             placeholder="Max F Temp"
           />
           <input
             value={this.state.minTempF}
-            onChange={event => this.onChange('minTempF', parseInt(event.target.value, 10))}
+            onChange={event => this.onChange('minTempF', event.target.value)}
             placeholder="Min F Temp"
           />
           <input
             value={this.state.maxTempC}
-            onChange={event => this.onChange('maxTempC', parseInt(event.target.value, 10))}
+            onChange={event => this.onChange('maxTempC', event.target.value)}
             placeholder="Max C Temp"
           />
           <input
             value={this.state.minTempC}
-            onChange={event => this.onChange('minTempC', parseInt(event.target.value, 10))}
+            onChange={event => this.onChange('minTempC', event.target.value)}
             placeholder="Min C Temp"
           />
         </div>
@@ -85,6 +134,10 @@ class AddPreferences extends Component {
             onChange={event => this.onChange('maxRainChance', event.target.value)}
             placeholder="Max Rain Chance"
           />
+        </div>
+
+        <div>
+          <button onClick={this.savePreferences}>Save Preferences</button>
         </div>
       </div>
     );
