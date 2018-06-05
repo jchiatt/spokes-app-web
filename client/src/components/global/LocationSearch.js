@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import styled from 'styled-components';
 
 export default class LocationSearch extends Component {
   static propTypes = {
@@ -46,7 +47,9 @@ export default class LocationSearch extends Component {
 
   render() {
     return (
-      <div>
+      <SearchContainer>
+
+        <h1>Welcome to Spokes</h1>
         <p>Enter your Zip code to get started</p>
 
         <form onSubmit={this.handleZipSubmit}>
@@ -63,7 +66,19 @@ export default class LocationSearch extends Component {
 
           <input type="submit" value="Submit" />
         </form>
-      </div>
+      </SearchContainer>
     );
   }
 }
+
+
+const SearchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px;
+
+  form input {
+    margin: 5px;
+  }
+`;

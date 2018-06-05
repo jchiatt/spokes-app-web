@@ -5,8 +5,6 @@ import LocationSearch from '../components/global/LocationSearch';
 
 const Home = ({ handleSession, updateWeather }) => (
   <div>
-    <h1>Welcome to Spokes</h1>
-
     <LocationSearch
       handleSession={handleSession}
       updateWeather={updateWeather}
