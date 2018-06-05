@@ -1,3 +1,4 @@
+/* eslint camelcase: 0 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,13 +11,18 @@ class Status extends Component {
       temp_C: PropTypes.Int,
       windspeedMiles: PropTypes.Int,
     }).isRequired,
-    forecast: PropTypes.object.isRequired,
+    forecast: PropTypes.object.isRequired, // eslint-disable-line
   }
 
-  // API only contains rain chance inside of hourly data, so we have to add all the hourly chances up to get the average chance for the day (which is probably not how weather actually works, but this is a demo ¯\_(ツ)_/¯)
+  /*
+    API only contains rain chance inside of hourly data.
+    So, we have to add all the hourly chances up to get the average chance for the day.
+    (which is probably not how weather actually works, but this is a demo ¯\_(ツ)_/¯)
+  */
+
   calculateRainChance = () => {
     // Grab all the rain chances from each hourly array
-    const rainChancesTotal = this.props.forecast.hourly.reduce((total, current) => total + parseInt(current.chanceofrain, 10), 0);
+    const rainChancesTotal = this.props.forecast.hourly.reduce((total, current) => total + parseInt(current.chanceofrain, 10), 0); // eslint-disable-line
 
     // Calculate today's rain chance
     const rainChance = Math.ceil(rainChancesTotal / this.props.forecast.hourly.length);
@@ -59,9 +65,9 @@ class Status extends Component {
       <div>
         <h2>Oh, how swell! Looks like today is a great day to ride.</h2>
         <h3>Temperature</h3>
-        <p>Today's high is {maxtempF}&#8457; / {maxtempC}&#8451;</p>
-        <p>Today's low is {mintempF}&#8457; / {mintempC}&#8451;</p>
-        <p>Right now, it's {temp_F}&#8457; / {temp_C}&#8451;</p>
+        <p>Today&apos;s high is {maxtempF}&#8457; / {maxtempC}&#8451;</p>
+        <p>Today&apos;s low is {mintempF}&#8457; / {mintempC}&#8451;</p>
+        <p>Right now, it&apos;s {temp_F}&#8457; / {temp_C}&#8451;</p>
 
         <h3>Wind</h3>
         <p>Current wind speed is {windspeedMiles} mph</p>
