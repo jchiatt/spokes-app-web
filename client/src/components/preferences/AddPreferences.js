@@ -1,9 +1,6 @@
-import React from 'react';
-import { graphql } from 'react-apollo';
-import CreatePreferences from '../../api/mutations/CreatePreferences';
-import ListPreferences from '../../api/queries/ListPreferences';
+import React, { Component } from 'react';
 
-class AddPreferences extends React.Component {
+class AddPreferences extends Component {
   state = {
     maxTempF: 0,
     maxTempC: 0,
@@ -19,35 +16,6 @@ class AddPreferences extends React.Component {
 
   onChange = (key, value) => {
     this.setState({ [key]: value });
-  }
-
-  createPreferences = () => {
-    const {
-      maxTempF,
-      maxTempC,
-      minTempF,
-      minTempC,
-      minWindSpeed,
-      maxWindSpeed,
-      minHumidity,
-      maxHumidity,
-      minRainChance,
-      maxRainChance,
-    } = this.state;
-
-    this.props.onAdd({
-      id: 'test8',
-      maxTempF,
-      maxTempC,
-      minTempF,
-      minTempC,
-      minWindSpeed,
-      maxWindSpeed,
-      minHumidity,
-      maxHumidity,
-      minRainChance,
-      maxRainChance,
-    });
   }
 
   render() {
@@ -118,30 +86,9 @@ class AddPreferences extends React.Component {
             placeholder="Max Rain Chance"
           />
         </div>
-
-        <div onClick={this.createPreferences}>
-          <p>Save Preferences</p>
-        </div>
       </div>
     );
   }
 }
 
-export default graphql(CreatePreferences, {
-  props: props => ({
-    onAdd: preferences => props.mutate({
-      variables: preferences,
-      optimisticResponse: () => ({ createPreferences: { ...preferences, __typename: 'Mutation' } }),
-    }),
-  }),
-  // options: {
-  //   refetchQueries: [{ query: ListPreferences }],
-  //   update: (dataProxy, { data: { createPreferences } }) => {
-  //     const data = dataProxy.readQuery({ query: ListPreferences });
-
-  //     data.listPreferences.items.push(createPreferences);
-
-  //     dataProxy.writeQuery({ query: ListPreferences, data });
-  //   },
-  // },
-})(AddPreferences);
+export default AddPreferences;
