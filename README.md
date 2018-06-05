@@ -1,5 +1,28 @@
 # Spokes App
 
+A test project for a certain company's interview process.
+
+## Tech
+* Create React App
+* Styled Components
+* NodeJS
+* Express
+
+## Project Requirements
+
+### Problem
+
+Mike is an avid biker and would like an app to help him decide when to ride. He wants an
+app to check if today is a “good” day to ride his bike. After talking with Mike, we determined he would also like the app to tell him what days out of the next seven days would be the best days to ride. Sometimes Mike camps in areas that do not have internet connectivity, so having the app work without internet would be a bonus. Mike then told us that some people like to ride when it is cold while others only ride when it is warm, so having a way to customize the criteria of a “good” day would be helpful. Mike also stated the wind speed affects his ride enjoyment. He also doesn’t like riding immediately after a rain on his road bike, but he has friends that ride mountain bikes and they love to ride after a rain. Lastly, Mike said this app would be a “home run” if, after a ride, he could rank how “good” of a day it was to ride and then use that data to determine what future days might also be “good.”
+
+### Below is a list of features ordered by priority:
+1. As auser,Iwouldliketobeabletousetheapptotellmeiftodayisagooddaytoridea bike.
+2. As a user, I would like the app to tell me what day or days would be the best to ride in the next seven days so I can plan to ride on those days.
+3. As a user, I would like to be able to save the ride predictions so I can pull them up if I do not have internet access.
+4. As a user, I would like to be able to specify the criteria the app uses to determine if today is a “good” day to ride so I can customize the app for my needs.
+5. As a user, I would like to record how good today was after a ride so the app can track what days are “good” days.
+6. As a user, I would like the app to learn what I think “good” days are and use that information to tell me what are the “best” days for me to ride.
+
 ## Asset Credits
 Bike icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 
