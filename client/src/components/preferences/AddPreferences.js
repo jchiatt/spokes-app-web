@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import qs from 'qs';
+import { getPreferences, savePreferences } from '../../api/preferences';
 
 class AddPreferences extends Component {
   state = {
@@ -14,61 +13,35 @@ class AddPreferences extends Component {
     maxHumidity: '',
     minRainChance: '',
     maxRainChance: '',
+    updatedMessage: false,
   }
 
   componentDidMount() {
-    this.getPreferences();
+    getPreferences().then((res) => {
+      this.setState({
+        ...res.data,
+      });
+    });
   }
 
   onChange = (key, value) => {
     this.setState({ [key]: value });
   }
 
-  getPreferences = async () => {
-    const API_BASE = 'http://localhost:8000/preferences';
-    const prefID = '5b15feaa022b3c85cf520a52';
-
-    try {
-      const data = await axios.get(`${API_BASE}/${prefID}`);
-
-      this.setState({
-        maxTempF: data.data.maxTempF.toString(),
-        maxTempC: data.data.maxTempC,
-        minTempF: data.data.minTempF,
-        minTempC: data.data.minTempC,
-        minWindSpeed: data.data.minWindSpeed,
-        maxWindSpeed: data.data.maxWindSpeed,
-        minHumidity: data.data.minHumidity,
-        maxHumidity: data.data.maxHumidity,
-        minRainChance: data.data.minRainChance,
-        maxRainChance: data.data.maxRainChance,
-      });
-    } catch (err) {
-      console.log(err); // eslint-disable-line
-    }
-  }
-
-  savePreferences = async () => {
-    const API_BASE = 'http://localhost:8000/preferences';
-    const prefID = '5b15feaa022b3c85cf520a52';
-
-    try {
-      const data = { ...this.state };
-      const reqBody = {
-        method: 'PUT',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-        url: `${API_BASE}/${prefID}`,
-      };
-
-      const response = await axios(reqBody);
-      console.log(response);
-    } catch (err) {
-      console.log(err); // eslint-disable-line
-    }
-  }
-
   render() {
+    const toggleMessage = () => {
+      this.setState({
+        updatedMessage: !this.state.updatedMessage,
+      });
+    };
+
+    const updatePrefs = () => {
+      savePreferences(this.state).then(() => {
+        toggleMessage();
+        setTimeout(toggleMessage, 2000);
+      });
+    };
+
     return (
       <div>
         <div>
@@ -138,7 +111,11 @@ class AddPreferences extends Component {
         </div>
 
         <div>
-          <button onClick={this.savePreferences}>Save Preferences</button>
+          <button onClick={updatePrefs}>Save Preferences</button>
+
+          {this.state.updatedMessage &&
+            <p>Successfully updated</p>
+          }
         </div>
       </div>
     );
