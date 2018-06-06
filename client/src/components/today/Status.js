@@ -12,6 +12,26 @@ class Status extends Component {
       windspeedMiles: PropTypes.Int,
     }).isRequired,
     forecast: PropTypes.object.isRequired, // eslint-disable-line
+    preferences: PropTypes.object.isRequired, // eslint-disable-line
+  }
+
+  componentDidMount() {
+    console.log(this.props.currentCondition);
+    console.log(this.props.forecast);
+    console.log(this.props.preferences);
+
+    this.goodIntervals();
+  }
+
+  goodIntervals = () => {
+    const goodIntervals = this.props.forecast.hourly
+      .filter(interval => interval.tempF >= this.props.preferences.minTempF && interval.tempF <= this.props.preferences.maxTempF)
+      .filter(interval => interval.tempC >= this.props.preferences.minTempC && interval.tempC <= this.props.preferences.maxTempC)
+      .filter(interval => interval.windspeedMiles >= this.props.preferences.minWindSpeed && interval.windspeedMiles <= this.props.preferences.maxWindSpeed)
+      .filter(interval => interval.chanceofrain >= this.props.preferences.minRainChance && interval.chanceofrain <= this.props.preferences.maxRainChance);
+
+    goodIntervals.length >= 4 ? console.log('good day') : console.log('not a good day');
+    console.log(goodIntervals);
   }
 
   /*

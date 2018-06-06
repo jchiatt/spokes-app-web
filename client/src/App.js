@@ -9,6 +9,8 @@ import {
 
 import styled from 'styled-components';
 
+import { getPreferences } from './api/preferences';
+
 import Header from './components/global/Header';
 import Home from './screens/Home';
 import Today from './screens/Today';
@@ -20,6 +22,17 @@ class App extends Component {
     current_condition: {},
     loggedIn: false,
     forecast: [],
+    preferences: {},
+  }
+
+  componentDidMount() {
+    getPreferences().then((res) => {
+      this.setState({
+        preferences: {
+          ...res.data,
+        },
+      });
+    });
   }
 
   // A fake-it function to handle login/logout. Could be used for actual auth later on.
@@ -54,6 +67,7 @@ class App extends Component {
                       currentCondition={this.state.current_condition}
                       forecast={this.state.forecast}
                       loggedIn={this.state.loggedIn}
+                      preferences={this.state.preferences}
                     />)}
                 />
               ) : (
