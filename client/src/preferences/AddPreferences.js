@@ -11,8 +11,10 @@ class AddPreferences extends Component {
   }
 
   componentDidMount() {
-    const { getPreferences } = this.props;
-    getPreferences();
+    const { getPreferences, preferencesLoaded } = this.props;
+    if (!preferencesLoaded) {
+      getPreferences();
+    }
   }
 
   onChange = (key, value) => {
@@ -22,13 +24,15 @@ class AddPreferences extends Component {
   }
 
   render() {
-    const { preferences } = this.props;
+    const { preferences, preferencesLoaded } = this.props;
 
     const toggleMessage = () => {
       this.setState({
         updatedMessage: !this.state.updatedMessage,
       });
     };
+
+    if (!preferencesLoaded) return <h1>Loading...</h1>;
 
     return (
       <div>
@@ -119,6 +123,7 @@ class AddPreferences extends Component {
 
 const mapStateToProps = state => ({
   preferences: state.preferences.preferences,
+  preferencesLoaded: state.preferences.preferencesLoaded,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

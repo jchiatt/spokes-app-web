@@ -1,3 +1,5 @@
+/* eslint func-names: 0 */
+
 import axios from 'axios';
 import qs from 'qs';
 
@@ -18,12 +20,12 @@ export function getPreferences() {
   };
 }
 
-export function savePreferences() {
-  return async function (dispatch, data) {
+export function savePreferences(preferences) {
+  return async function (dispatch) {
     const request = {
       method: 'PUT',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
+      data: qs.stringify(preferences),
       url: `${API_BASE}/${prefID}`,
     };
 

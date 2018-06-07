@@ -8,8 +8,11 @@ import {
 } from 'react-router-dom';
 
 import styled from 'styled-components';
-
-import { getPreferences, savePreferences } from './api/preferences';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 import Header from './components/global/Header';
 import Home from './screens/Home';
@@ -17,13 +20,7 @@ import Today from './screens/Today';
 import Forecast from './screens/Forecast';
 import Preferences from './preferences/Preferences';
 
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
 import rootReducer from './rootReducer';
-
-import { composeWithDevTools } from 'redux-devtools-extension';
-import logger from 'redux-logger';
-import thunk from 'redux-thunk';
 
 const middleware = [logger, thunk];
 
@@ -38,17 +35,6 @@ class App extends Component {
     current_condition: {},
     loggedIn: false,
     forecast: [],
-    preferences: {},
-  }
-
-  componentDidMount() {
-    getPreferences().then((res) => {
-      this.setState({
-        preferences: {
-          ...res.data,
-        },
-      });
-    });
   }
 
   // A fake-it function to handle login/logout. Could be used for actual auth later on.
@@ -65,13 +51,6 @@ class App extends Component {
       forecast: data.weather,
     });
   }
-
-  updatePrefs = async (prefs) => {
-    await this.setState({
-      preferences: prefs,
-    });
-    await savePreferences(this.state.preferences);
-  };
 
   render() {
     return (
@@ -111,7 +90,6 @@ class App extends Component {
                     component={() => (
                       <Preferences
                         preferences={this.state.preferences}
-                        updatePrefs={this.updatePrefs}
                       />)}
                   />
                 ) : (
