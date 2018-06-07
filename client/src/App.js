@@ -1,5 +1,5 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -15,7 +15,23 @@ import Header from './components/global/Header';
 import Home from './screens/Home';
 import Today from './screens/Today';
 import Forecast from './screens/Forecast';
-import Preferences from './screens/Preferences';
+import Preferences from './preferences/Preferences';
+
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './rootReducer';
+
+import { composeWithDevTools } from 'redux-devtools-extension';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
+
+const middleware = [logger, thunk];
+
+const store = createStore(
+  rootReducer,
+  {},
+  composeWithDevTools(applyMiddleware(...middleware)),
+);
 
 class App extends Component {
   state = {
@@ -59,24 +75,24 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div>
-          <Header handleSession={this.handleSession} loggedIn={this.state.loggedIn} />
-
-          <AppContainer>
-            <Switch>
-              {this.state.loggedIn ? (
-                <Route
-                  exact
-                  path="/"
-                  component={() => (
-                    <Today
-                      currentCondition={this.state.current_condition}
-                      forecast={this.state.forecast}
-                      loggedIn={this.state.loggedIn}
-                      preferences={this.state.preferences}
-                    />)}
-                />
+      <Provider store={store}>
+        <Router>
+          <Fragment>
+            <Header handleSession={this.handleSession} loggedIn={this.state.loggedIn} />
+            <AppContainer>
+              <Switch>
+                {this.state.loggedIn ? (
+                  <Route
+                    exact
+                    path="/"
+                    component={() => (
+                      <Today
+                        currentCondition={this.state.current_condition}
+                        forecast={this.state.forecast}
+                        loggedIn={this.state.loggedIn}
+                        preferences={this.state.preferences}
+                      />)}
+                  />
               ) : (
                 <Home
                   handleSession={this.handleSession}
@@ -84,28 +100,29 @@ class App extends Component {
                 />
               )}
 
-              {this.state.loggedIn ? (
-                <Route path="/forecast" component={Forecast} />
+                {this.state.loggedIn ? (
+                  <Route path="/forecast" component={Forecast} />
               ) : (
                 <Redirect to="/" />
               )}
-              {this.state.loggedIn ? (
-                <Route
-                  path="/preferences"
-                  component={() => (
-                    <Preferences
-                      preferences={this.state.preferences}
-                      updatePrefs={this.updatePrefs}
-                    />)}
-                />
-              ) : (
-                <Redirect to="/" />
-              )}
+                {this.state.loggedIn ? (
+                  <Route
+                    path="/preferences"
+                    component={() => (
+                      <Preferences
+                        preferences={this.state.preferences}
+                        updatePrefs={this.updatePrefs}
+                      />)}
+                  />
+                ) : (
+                  <Redirect to="/" />
+                )}
 
-            </Switch>
-          </AppContainer>
-        </div>
-      </Router>
+              </Switch>
+            </AppContainer>
+          </Fragment>
+        </Router>
+      </Provider>
     );
   }
 }

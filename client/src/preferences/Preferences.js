@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AddPreferences from '../components/preferences/AddPreferences';
+import AddPreferences from '../preferences/AddPreferences';
 import Day from '../components/global/Day';
 
 const Preferences = ({ preferences, updatePrefs }) => (

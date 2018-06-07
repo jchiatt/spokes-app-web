@@ -23,7 +23,12 @@
     "react-apollo": "^2.1.4",
     "react-dom": "^16.4.0",
     "react-overdrive": "0.0.10",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^3.3.0"
   },
   "scripts": {
