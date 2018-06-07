@@ -134,6 +134,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(AddPreferences);
 
 AddPreferences.propTypes = {
   preferences: PropTypes.object.isRequired, // eslint-disable-line
-  updatePrefs: PropTypes.func.isRequired,
+  getPreferences: PropTypes.func.isRequired,
 };
-
