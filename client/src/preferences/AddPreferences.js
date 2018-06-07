@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getPreferences } from './actions';
+
 class AddPreferences extends Component {
   state = {
-    maxTempF: this.props.preferences.maxTempF,
-    minTempF: this.props.preferences.minTempF,
-    maxTempC: this.props.preferences.maxTempC,
-    minTempC: this.props.preferences.minTempC,
-    maxWindSpeed: this.props.preferences.maxWindSpeed,
-    minWindSpeed: this.props.preferences.minWindSpeed,
-    maxHumidity: this.props.preferences.maxHumidity,
-    minHumidity: this.props.preferences.minHumidity,
-    maxRainChance: this.props.preferences.maxRainChance,
-    minRainChance: this.props.preferences.minRainChance,
     updatedMessage: false,
+  }
+
+  componentDidMount() {
+    const { getPreferences } = this.props;
+    getPreferences();
   }
 
   onChange = (key, value) => {
@@ -23,6 +22,8 @@ class AddPreferences extends Component {
   }
 
   render() {
+    const { preferences } = this.props;
+
     const toggleMessage = () => {
       this.setState({
         updatedMessage: !this.state.updatedMessage,
@@ -34,22 +35,22 @@ class AddPreferences extends Component {
         <div>
           <h2>Temperature Range</h2>
           <input
-            value={this.state.maxTempF}
+            value={preferences.maxTempF}
             onChange={event => this.onChange('maxTempF', event.target.value)}
             placeholder="Max F Temp"
           />
           <input
-            value={this.state.minTempF}
+            value={preferences.minTempF}
             onChange={event => this.onChange('minTempF', event.target.value)}
             placeholder="Min F Temp"
           />
           <input
-            value={this.state.maxTempC}
+            value={preferences.maxTempC}
             onChange={event => this.onChange('maxTempC', event.target.value)}
             placeholder="Max C Temp"
           />
           <input
-            value={this.state.minTempC}
+            value={preferences.minTempC}
             onChange={event => this.onChange('minTempC', event.target.value)}
             placeholder="Min C Temp"
           />
@@ -58,12 +59,12 @@ class AddPreferences extends Component {
         <div>
           <h2>Wind Speed Range</h2>
           <input
-            value={this.state.minWindSpeed}
+            value={preferences.minWindSpeed}
             onChange={event => this.onChange('minWindSpeed', event.target.value)}
             placeholder="Min Wind Speed"
           />
           <input
-            value={this.state.maxWindSpeed}
+            value={preferences.maxWindSpeed}
             onChange={event => this.onChange('maxWindSpeed', event.target.value)}
             placeholder="Max Wind Speed"
           />
@@ -72,12 +73,12 @@ class AddPreferences extends Component {
         <div>
           <h2>Humidity Range</h2>
           <input
-            value={this.state.minHumidity}
+            value={preferences.minHumidity}
             onChange={event => this.onChange('minHumidity', event.target.value)}
             placeholder="Min Humidity"
           />
           <input
-            value={this.state.maxHumidity}
+            value={preferences.maxHumidity}
             onChange={event => this.onChange('maxHumidity', event.target.value)}
             placeholder="Max Humidity"
           />
@@ -86,12 +87,12 @@ class AddPreferences extends Component {
         <div>
           <h2>Rain Chance</h2>
           <input
-            value={this.state.minRainChance}
+            value={preferences.minRainChance}
             onChange={event => this.onChange('minRainChance', event.target.value)}
             placeholder="Min Rain Chance"
           />
           <input
-            value={this.state.maxRainChance}
+            value={preferences.maxRainChance}
             onChange={event => this.onChange('maxRainChance', event.target.value)}
             placeholder="Max Rain Chance"
           />
@@ -100,7 +101,7 @@ class AddPreferences extends Component {
         <div>
           <button
             onClick={() => {
-              this.props.updatePrefs(this.state);
+              this.props.updatePrefs(preferences);
               toggleMessage();
               setTimeout(toggleMessage, 2000);
             }}
@@ -116,7 +117,15 @@ class AddPreferences extends Component {
   }
 }
 
-export default AddPreferences;
+const mapStateToProps = state => ({
+  preferences: state.preferences.preferences,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getPreferences,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPreferences);
 
 AddPreferences.propTypes = {
   preferences: PropTypes.object.isRequired, // eslint-disable-line
