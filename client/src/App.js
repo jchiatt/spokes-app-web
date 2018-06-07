@@ -69,7 +69,6 @@ class App extends Component {
                         currentCondition={this.state.current_condition}
                         forecast={this.state.forecast}
                         loggedIn={this.state.loggedIn}
-                        preferences={this.state.preferences}
                       />)}
                   />
               ) : (

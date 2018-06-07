@@ -2,6 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getPreferences } from '../../preferences/actions';
+
 import Time from './Time';
 import Rank from './Rank';
 
@@ -17,7 +21,8 @@ class Status extends Component {
   }
 
   componentDidMount() {
-    this.goodIntervals();
+    const { getPreferences, preferencesLoaded } = this.props;
+    !preferencesLoaded ? getPreferences() : this.goodIntervals;
   }
 
   /*
@@ -25,26 +30,27 @@ class Status extends Component {
     This function determines which, if any, 3 hour intervals line up with the user's preferences
   */
   goodIntervals = () => {
+    const { preferences } = this.props;
     const goodIntervals = this.props.forecast.hourly
       .filter(interval => (
-        interval.tempF >= this.props.preferences.minTempF &&
-        interval.tempF <= this.props.preferences.maxTempF
+        interval.tempF >= preferences.minTempF &&
+        interval.tempF <= preferences.maxTempF
       ))
       .filter(interval => (
-        interval.tempC >= this.props.preferences.minTempC &&
-        interval.tempC <= this.props.preferences.maxTempC
+        interval.tempC >= preferences.minTempC &&
+        interval.tempC <= preferences.maxTempC
       ))
       .filter(interval => (
-        interval.humidity >= this.props.preferences.minHumidity &&
-        interval.humidity <= this.props.preferences.maxHumidity
+        interval.humidity >= preferences.minHumidity &&
+        interval.humidity <= preferences.maxHumidity
       ))
       .filter(interval => (
-        interval.windspeedMiles >= this.props.preferences.minWindSpeed &&
-        interval.windspeedMiles <= this.props.preferences.maxWindSpeed
+        interval.windspeedMiles >= preferences.minWindSpeed &&
+        interval.windspeedMiles <= preferences.maxWindSpeed
       ))
       .filter(interval => (
-        interval.chanceofrain >= this.props.preferences.minRainChance &&
-        interval.chanceofrain <= this.props.preferences.maxRainChance
+        interval.chanceofrain >= preferences.minRainChance &&
+        interval.chanceofrain <= preferences.maxRainChance
       ));
 
     return goodIntervals.length >= 4 ? console.log('good day') : console.log('not a good day');
@@ -97,6 +103,10 @@ class Status extends Component {
     } = this.props.forecast;
     const rainMessage = this.calculateRainChance();
 
+    const { preferencesLoaded } = this.props;
+
+    if (!preferencesLoaded) return <h1>Loading...</h1>;
+
     return (
       <div>
         <h2>Oh, how swell! Looks like today is a great day to ride.</h2>
@@ -123,4 +133,13 @@ class Status extends Component {
   }
 }
 
-export default Status;
+const mapStateToProps = state => ({
+  preferences: state.preferences.preferences,
+  preferencesLoaded: state.preferences.preferencesLoaded,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getPreferences,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Status);
