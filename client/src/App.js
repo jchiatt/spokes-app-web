@@ -88,9 +88,7 @@ class App extends Component {
                   <Route
                     path="/preferences"
                     component={() => (
-                      <Preferences
-                        preferences={this.state.preferences}
-                      />)}
+                      <Preferences />)}
                   />
                 ) : (
                   <Redirect to="/" />

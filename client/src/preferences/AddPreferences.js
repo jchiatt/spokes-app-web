@@ -11,7 +11,7 @@ class AddPreferences extends Component {
   }
 
   componentDidMount() {
-    const { getPreferences, preferencesLoaded } = this.props;
+    const { getPreferences, preferencesLoaded } = this.props; // eslint-disable-line
     if (!preferencesLoaded) {
       getPreferences();
     }
