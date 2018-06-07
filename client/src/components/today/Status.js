@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Time from './Time';
 import Rank from './Rank';
 
 class Status extends Component {
@@ -16,17 +17,21 @@ class Status extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.currentCondition);
     console.log(this.props.forecast);
     console.log(this.props.preferences);
 
     this.goodIntervals();
   }
 
+  /*
+    API Data for day-by-day forecast is returned in 3 hour intervals
+    This function determines which, if any, 3 hour intervals line up with the user's preferences
+  */
   goodIntervals = () => {
     const goodIntervals = this.props.forecast.hourly
       .filter(interval => interval.tempF >= this.props.preferences.minTempF && interval.tempF <= this.props.preferences.maxTempF)
       .filter(interval => interval.tempC >= this.props.preferences.minTempC && interval.tempC <= this.props.preferences.maxTempC)
+      .filter(interval => interval.humidity >= this.props.preferences.minHumidity && interval.humidity <= this.props.preferences.maxHumidity)
       .filter(interval => interval.windspeedMiles >= this.props.preferences.minWindSpeed && interval.windspeedMiles <= this.props.preferences.maxWindSpeed)
       .filter(interval => interval.chanceofrain >= this.props.preferences.minRainChance && interval.chanceofrain <= this.props.preferences.maxRainChance);
 
@@ -84,6 +89,8 @@ class Status extends Component {
     return (
       <div>
         <h2>Oh, how swell! Looks like today is a great day to ride.</h2>
+
+        <h2>Today&apos;s Conditions</h2>
         <h3>Temperature</h3>
         <p>Today&apos;s high is {maxtempF}&#8457; / {maxtempC}&#8451;</p>
         <p>Today&apos;s low is {mintempF}&#8457; / {mintempC}&#8451;</p>
@@ -94,6 +101,10 @@ class Status extends Component {
 
         <h3>Precipitation</h3>
         <p>{rainMessage}</p>
+
+        <h2>Best times to ride today</h2>
+
+        {this.props.forecast.hourly.map(interval => <Time forecast={interval} key={interval.time} />)}
 
         <Rank />
       </div>

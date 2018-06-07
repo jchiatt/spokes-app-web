@@ -9,7 +9,7 @@ import {
 
 import styled from 'styled-components';
 
-import { getPreferences } from './api/preferences';
+import { getPreferences, savePreferences } from './api/preferences';
 
 import Header from './components/global/Header';
 import Home from './screens/Home';
@@ -50,6 +50,13 @@ class App extends Component {
     });
   }
 
+  updatePrefs = async (prefs) => {
+    await this.setState({
+      preferences: prefs,
+    });
+    await savePreferences(this.state.preferences);
+  };
+
   render() {
     return (
       <Router>
@@ -83,7 +90,14 @@ class App extends Component {
                 <Redirect to="/" />
               )}
               {this.state.loggedIn ? (
-                <Route path="/preferences" component={Preferences} />
+                <Route
+                  path="/preferences"
+                  component={() => (
+                    <Preferences
+                      preferences={this.state.preferences}
+                      updatePrefs={this.updatePrefs}
+                    />)}
+                />
               ) : (
                 <Redirect to="/" />
               )}
