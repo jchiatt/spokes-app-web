@@ -1,44 +1,31 @@
 import React, { Component } from 'react';
-import { getPreferences, savePreferences } from '../../api/preferences';
+import PropTypes from 'prop-types';
 
 class AddPreferences extends Component {
   state = {
-    maxTempF: '',
-    maxTempC: '',
-    minTempF: '',
-    minTempC: '',
-    minWindSpeed: '',
-    maxWindSpeed: '',
-    minHumidity: '',
-    maxHumidity: '',
-    minRainChance: '',
-    maxRainChance: '',
+    maxTempF: this.props.preferences.maxTempF,
+    minTempF: this.props.preferences.minTempF,
+    maxTempC: this.props.preferences.maxTempC,
+    minTempC: this.props.preferences.minTempC,
+    maxWindSpeed: this.props.preferences.maxWindSpeed,
+    minWindSpeed: this.props.preferences.minWindSpeed,
+    maxHumidity: this.props.preferences.maxHumidity,
+    minHumidity: this.props.preferences.minHumidity,
+    maxRainChance: this.props.preferences.maxRainChance,
+    minRainChance: this.props.preferences.minRainChance,
     updatedMessage: false,
   }
 
-  componentDidMount() {
-    getPreferences().then((res) => {
-      this.setState({
-        ...res.data,
-      });
-    });
-  }
-
   onChange = (key, value) => {
-    this.setState({ [key]: value });
+    this.setState({
+      [key]: value,
+    });
   }
 
   render() {
     const toggleMessage = () => {
       this.setState({
         updatedMessage: !this.state.updatedMessage,
-      });
-    };
-
-    const updatePrefs = () => {
-      savePreferences(this.state).then(() => {
-        toggleMessage();
-        setTimeout(toggleMessage, 2000);
       });
     };
 
@@ -111,7 +98,14 @@ class AddPreferences extends Component {
         </div>
 
         <div>
-          <button onClick={updatePrefs}>Save Preferences</button>
+          <button
+            onClick={() => {
+              this.props.updatePrefs(this.state);
+              toggleMessage();
+              setTimeout(toggleMessage, 2000);
+            }}
+          >Save Preferences
+          </button>
 
           {this.state.updatedMessage &&
             <p>Successfully updated</p>
@@ -123,3 +117,9 @@ class AddPreferences extends Component {
 }
 
 export default AddPreferences;
+
+AddPreferences.propTypes = {
+  preferences: PropTypes.object.isRequired, // eslint-disable-line
+  updatePrefs: PropTypes.func.isRequired,
+};
+

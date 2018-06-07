@@ -1,12 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import AddPreferences from '../components/preferences/AddPreferences';
 import Day from '../components/global/Day';
 
-const Preferences = () => (
+const Preferences = ({ preferences, updatePrefs }) => (
   <div>
     <h1>Preferences</h1>
 
-    <AddPreferences />
+    <AddPreferences preferences={preferences} updatePrefs={updatePrefs} />
 
     <h2>Past days you enjoyed riding</h2>
     <Day />
@@ -16,3 +18,8 @@ const Preferences = () => (
 );
 
 export default Preferences;
+
+Preferences.propTypes = {
+  preferences: PropTypes.object.isRequired, // eslint-disable-line
+  updatePrefs: PropTypes.func.isRequired,
+};

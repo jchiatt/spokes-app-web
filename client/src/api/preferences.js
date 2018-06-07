@@ -17,7 +17,10 @@ export const savePreferences = async (data) => {
     url: `${API_BASE}/${prefID}`,
   };
 
+  console.log(data);
+
   const response = await axios(request);
+  console.log(response);
   return response;
 };
 
