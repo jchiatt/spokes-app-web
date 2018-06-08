@@ -1,7 +1,7 @@
 import React from 'react';
 
-import AddPreferences from '../preferences/AddPreferences';
-import Day from '../components/global/Day';
+import AddPreferences from './AddPreferences';
+import Day from '../../components/global/Day';
 
 const Preferences = () => (
   <div>

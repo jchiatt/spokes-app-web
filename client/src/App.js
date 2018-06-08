@@ -18,7 +18,7 @@ import Header from './components/global/Header';
 import Home from './screens/Home';
 import Today from './screens/Today';
 import Forecast from './screens/Forecast';
-import Preferences from './preferences/Preferences';
+import Preferences from './screens/preferences/Preferences';
 
 import rootReducer from './rootReducer';
 
