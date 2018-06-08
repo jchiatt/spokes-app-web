@@ -1,4 +1,4 @@
-import { GET_PREFERENCES, SAVE_PREFERENCES } from '../preferences/actions';
+import { GET_PREFERENCES, SAVE_PREFERENCES } from './actions';
 
 const initialState = {
   preferences: {},

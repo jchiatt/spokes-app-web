@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Status from '../components/today/Status';
+import Status from '../../screens/today/Status';
 
 const Today = ({
   currentCondition, forecast, loggedIn,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getPreferences } from '../../preferences/actions';
+import { getPreferences } from '../preferences/actions';
 
 import Time from './Time';
 import Rank from './Rank';
@@ -21,8 +21,8 @@ class Status extends Component {
   }
 
   componentDidMount() {
-    const { getPreferences, preferencesLoaded } = this.props;
-    !preferencesLoaded ? getPreferences() : this.goodIntervals;
+    const { preferencesLoaded } = this.props;
+    !preferencesLoaded ? getPreferences() : this.goodIntervals; // eslint-disable-line
   }
 
   /*
@@ -53,7 +53,7 @@ class Status extends Component {
         interval.chanceofrain <= preferences.maxRainChance
       ));
 
-    return goodIntervals.length >= 4 ? console.log('good day') : console.log('not a good day');
+    return goodIntervals.length >= 4;
   }
 
   /*
@@ -125,7 +125,9 @@ class Status extends Component {
 
         <h2>Best times to ride today</h2>
 
-        {this.props.forecast.hourly.map(interval => <Time forecast={interval} key={interval.time} />)}
+        {this.props.forecast.hourly.map(interval => (
+          <Time forecast={interval} key={interval.time} />
+        ))}
 
         <Rank />
       </div>
@@ -143,3 +145,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Status);
+
+Status.propTypes = {
+  preferencesLoaded: PropTypes.bool.isRequired,
+};

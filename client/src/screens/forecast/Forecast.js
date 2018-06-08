@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Day from '../components/global/Day';
+import Day from '../../components/global/Day';
 
 const Forecast = () => (
   <div>
