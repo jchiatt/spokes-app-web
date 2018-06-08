@@ -15,9 +15,9 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import Header from './components/global/Header';
-import Home from './screens/Home';
-import Today from './screens/Today';
-import Forecast from './screens/Forecast';
+import Home from './screens/home/Home';
+import Today from './screens/today/Today';
+import Forecast from './screens/forecast/Forecast';
 import Preferences from './screens/preferences/Preferences';
 
 import rootReducer from './rootReducer';
