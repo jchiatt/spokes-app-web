@@ -7,7 +7,6 @@ const API_BASE = 'http://localhost:8000/preferences';
 const prefID = '5b15feaa022b3c85cf520a52';
 
 export const GET_PREFERENCES = 'GET_PREFERENCES';
-export const UPDATE_PREFERENCES = 'UPDATE_PREFERENCES';
 export const SAVE_PREFERENCES = 'SAVE_PREFERENCES';
 
 export function getPreferences() {
