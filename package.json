@@ -4,16 +4,27 @@
   "description": "A basic Node API for the Spokes app.",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "deploy": "now --public"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "mongodb": "^2.2.16"
+    "mongodb": "^2.2.16",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^1.17.5"
+  },
+  "now": {
+    "alias":"spokes",
+    "name": "spokes-app-web",
+    "env": {
+      "PORT": 8000,
+      "DB": "@db"
+    }
   }
 }

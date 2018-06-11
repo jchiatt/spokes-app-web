@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import { WEATHER_API_ROOT } from '../../api-config';
+
 export default class LocationSearch extends Component {
   static propTypes = {
     handleSession: PropTypes.func.isRequired,
@@ -23,14 +25,10 @@ export default class LocationSearch extends Component {
   handleZipSubmit = (event) => {
     event.preventDefault();
 
-    // API info. Would move this to the backend in production
-    const API_BASE = 'https://api.worldweatheronline.com/premium/v1/weather.ashx';
-    const API_KEY = 'dac7582d3a0c433db2c25733180206';
-
     // Get current weather and 7 day forecast from API
     const getZipWeather = async () => {
       try {
-        const data = await axios.get(`${API_BASE}?key=${API_KEY}&q=${this.state.zip}&num_of_days=7&format=json`);
+        const data = await axios.get(`${WEATHER_API_ROOT()}&q=${this.state.zip}&num_of_days=7&format=json`);
 
         // Update state with weather data
         this.props.updateWeather(data.data.data);

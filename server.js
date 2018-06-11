@@ -1,11 +1,17 @@
 const express     = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser  = require('body-parser');
-const db          = require('./config/db');
+const config      = require('./config');
+const path        = require('path');
 
 const app = express();
+const port = config.port;
 
-const port = 8000;
+app.use(express.static(path.resolve(__dirname, "client", "build")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+});
 
 app.all('*', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -16,11 +22,11 @@ app.all('*', function(req, res, next) {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-MongoClient.connect(db.url, (err, database) => {
+MongoClient.connect(config.db, (err, database) => {
   if (err) return console.log(err)
   
   database_name = database.db("spokes_db")
-  require('./app/routes')(app, database_name);
+  require('./index')(app, database_name);
 
   app.listen(port, () => {
     console.log('Live on port ' + port);
