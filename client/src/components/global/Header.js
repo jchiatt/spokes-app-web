@@ -7,6 +7,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { handleSession } from '../../actions';
+
 import logo from '../../logo.svg';
 
 const Header = ({ handleSession, loggedIn }) => (
@@ -31,12 +35,15 @@ const Header = ({ handleSession, loggedIn }) => (
   </HeaderContainer>
 );
 
-export default Header;
+const mapStateToProps = state => ({
+  session: state.session,
+});
 
-Header.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
-  handleSession: PropTypes.func.isRequired,
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  handleSession,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
 const HeaderContainer = styled.header`
   display: flex;

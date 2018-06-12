@@ -5,9 +5,13 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { handleSession } from '../../actions';
+
 import { WEATHER_API_ROOT } from '../../api-config';
 
-export default class LocationSearch extends Component {
+class LocationSearch extends Component {
   static propTypes = {
     handleSession: PropTypes.func.isRequired,
     updateWeather: PropTypes.func.isRequired,
@@ -25,6 +29,8 @@ export default class LocationSearch extends Component {
   handleZipSubmit = (event) => {
     event.preventDefault();
 
+    const { handleSession } = this.props;
+
     // Get current weather and 7 day forecast from API
     const getZipWeather = async () => {
       try {
@@ -34,7 +40,7 @@ export default class LocationSearch extends Component {
         this.props.updateWeather(data.data.data);
 
         // Log in the user
-        this.props.handleSession();
+        handleSession();
       } catch (err) {
         console.log(err); // eslint-disable-line
       }
@@ -69,6 +75,11 @@ export default class LocationSearch extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  handleSession,
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(LocationSearch);
 
 const SearchContainer = styled.div`
   display: flex;

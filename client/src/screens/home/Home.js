@@ -13,8 +13,3 @@ const Home = ({ handleSession, updateWeather }) => (
 );
 
 export default Home;
-
-Home.propTypes = {
-  handleSession: PropTypes.func.isRequired,
-  updateWeather: PropTypes.func.isRequired,
-};
