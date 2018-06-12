@@ -12,8 +12,10 @@ class AddPreferences extends Component {
   }
 
   componentDidMount() {
-    const { getPreferences, preferencesLoaded } = this.props; // eslint-disable-line
-    if (!preferencesLoaded) {
+    const { getPreferences, preferencesLoaded, preferencesLoadedAt } = this.props; // eslint-disable-line
+    const oneHour = 60 * 60 * 1000;
+
+    if (!preferencesLoaded || ((new Date()) - new Date(preferencesLoadedAt)) > oneHour) {
       getPreferences();
     }
   }
@@ -128,6 +130,7 @@ class AddPreferences extends Component {
 const mapStateToProps = state => ({
   preferences: state.preferences.preferences,
   preferencesLoaded: state.preferences.preferencesLoaded,
+  preferencesLoadedAt: state.preferences.preferencesLoadedAt,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

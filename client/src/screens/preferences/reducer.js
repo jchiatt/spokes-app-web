@@ -3,6 +3,7 @@ import { GET_PREFERENCES, SAVE_PREFERENCES } from './actions';
 const initialState = {
   preferences: {},
   preferencesLoaded: false,
+  preferencesLoadedAt: null,
 };
 
 export default function (state = initialState, action) {
@@ -14,6 +15,7 @@ export default function (state = initialState, action) {
         ...state,
         preferences: payload,
         preferencesLoaded: true,
+        preferencesLoadedAt: new Date(),
       };
     case SAVE_PREFERENCES:
       return {
