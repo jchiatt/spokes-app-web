@@ -26,9 +26,13 @@ class LocationSearch extends Component {
   handleZipSubmit = (event) => {
     event.preventDefault();
 
-    const { getForecast, handleSession } = this.props; // eslint-disable-line
+    const { getForecast, handleSession, weatherLoadedAt } = this.props; // eslint-disable-line
 
-    getForecast(this.state.zip);
+    const oneHour = 60 * 60 * 1000;
+
+    if ((new Date() - new Date(weatherLoadedAt) > oneHour)) {
+      getForecast(this.state.zip);
+    }
 
     handleSession();
   }
@@ -59,12 +63,16 @@ class LocationSearch extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  weatherLoadedAt: state.weather.weatherLoadedAt,
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   handleSession,
   getForecast,
 }, dispatch);
 
-export default connect(null, mapDispatchToProps)(LocationSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(LocationSearch);
 
 const SearchContainer = styled.div`
   display: flex;

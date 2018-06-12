@@ -4,6 +4,7 @@ const initialState = {
   current_condition: {},
   forecast: [],
   weatherLoaded: false,
+  weatherLoadedAt: null,
 };
 
 export default function (state = initialState, action) {
@@ -16,6 +17,7 @@ export default function (state = initialState, action) {
         current_condition: payload.current_condition[0],
         forecast: payload.weather,
         weatherLoaded: true,
+        weatherLoadedAt: new Date(),
       };
     default:
       return state;
