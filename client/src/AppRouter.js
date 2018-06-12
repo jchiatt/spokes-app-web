@@ -19,17 +19,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class App extends Component {
-  state = {
-    current_condition: {},
-  }
-
-  // Updates the state of weather conditions after a ZIP is searched
-  updateWeather = (data) => {
-    this.setState({
-      current_condition: data.current_condition[0],
-    });
-  }
-
   render() {
     const { loggedIn } = this.props.session;
     const { weatherLoaded } = this.props.weather;
@@ -45,10 +34,7 @@ class App extends Component {
                   exact
                   path="/"
                   component={() => (
-                    <Today
-                      currentCondition={this.state.current_condition}
-                      loggedIn={loggedIn}
-                    />)}
+                    <Today />)}
                 />
             ) : (
               <Home

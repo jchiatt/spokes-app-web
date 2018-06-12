@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 
 import Status from '../../screens/today/Status';
 
-const Today = ({
-  currentCondition, loggedIn,
-}) => (
+const Today = () => (
   <div>
     <h1>Today</h1>
-    {loggedIn &&
-    <Status
-      currentCondition={currentCondition}
-    />
-  }
+    <Status />
   </div>
 );
 
