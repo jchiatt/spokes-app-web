@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Header handleSession={this.handleSession} loggedIn={loggedIn} />
+          <Header loggedIn={loggedIn} />
           <AppContainer>
             <Switch>
               {loggedIn ? (
@@ -54,7 +54,6 @@ class App extends Component {
                 />
             ) : (
               <Home
-                handleSession={this.handleSession}
                 updateWeather={this.updateWeather}
               />
             )}

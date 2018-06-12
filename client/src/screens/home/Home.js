@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 
 import LocationSearch from '../../components/global/LocationSearch';
 
-const Home = ({ handleSession, updateWeather }) => (
+const Home = ({ updateWeather }) => (
   <div>
     <LocationSearch
-      handleSession={handleSession}
       updateWeather={updateWeather}
     />
   </div>
