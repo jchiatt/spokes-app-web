@@ -8,8 +8,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { handleSession } from '../../actions';
-
-import { WEATHER_API_ROOT } from '../../api-config';
+import { getForecast } from '../../screens/today/actions';
 
 class LocationSearch extends Component {
   static propTypes = {
@@ -29,24 +28,11 @@ class LocationSearch extends Component {
   handleZipSubmit = (event) => {
     event.preventDefault();
 
-    const { handleSession } = this.props;
+    const { getForecast, handleSession } = this.props;
 
-    // Get current weather and 7 day forecast from API
-    const getZipWeather = async () => {
-      try {
-        const data = await axios.get(`${WEATHER_API_ROOT()}&q=${this.state.zip}&num_of_days=7&format=json`);
+    getForecast(this.state.zip);
 
-        // Update state with weather data
-        this.props.updateWeather(data.data.data);
-
-        // Log in the user
-        handleSession();
-      } catch (err) {
-        console.log(err); // eslint-disable-line
-      }
-    };
-
-    getZipWeather();
+    handleSession();
   }
 
   render() {
@@ -77,6 +63,7 @@ class LocationSearch extends Component {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   handleSession,
+  getForecast,
 }, dispatch);
 
 export default connect(null, mapDispatchToProps)(LocationSearch);

@@ -21,19 +21,18 @@ import { bindActionCreators } from 'redux';
 class App extends Component {
   state = {
     current_condition: {},
-    forecast: [],
   }
 
   // Updates the state of weather conditions after a ZIP is searched
   updateWeather = (data) => {
     this.setState({
       current_condition: data.current_condition[0],
-      forecast: data.weather,
     });
   }
 
   render() {
     const { loggedIn } = this.props.session;
+    const { weatherLoaded } = this.props.weather;
 
     return (
       <Router>
@@ -41,14 +40,13 @@ class App extends Component {
           <Header loggedIn={loggedIn} />
           <AppContainer>
             <Switch>
-              {loggedIn ? (
+              {loggedIn && weatherLoaded ? (
                 <Route
                   exact
                   path="/"
                   component={() => (
                     <Today
                       currentCondition={this.state.current_condition}
-                      forecast={this.state.forecast}
                       loggedIn={loggedIn}
                     />)}
                 />
@@ -83,6 +81,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   session: state.session,
+  weather: state.weather,
 });
 
 export default connect(mapStateToProps)(App);

@@ -10,16 +10,6 @@ import Time from './Time';
 import Rank from './Rank';
 
 class Status extends Component {
-  static propTypes = {
-    currentCondition: PropTypes.shape({
-      temp_F: PropTypes.Int,
-      temp_C: PropTypes.Int,
-      windspeedMiles: PropTypes.Int,
-    }).isRequired,
-    forecast: PropTypes.object.isRequired, // eslint-disable-line
-    preferences: PropTypes.object.isRequired, // eslint-disable-line
-  }
-
   componentDidMount() {
     const { preferencesLoaded, getPreferences } = this.props; // eslint-disable-line
     !preferencesLoaded ? getPreferences() : this.goodIntervals; // eslint-disable-line
@@ -31,7 +21,7 @@ class Status extends Component {
   */
   goodIntervals = () => {
     const { preferences } = this.props;
-    const goodIntervals = this.props.forecast.hourly
+    const goodIntervals = this.props.weather.forecast.hourly
       .filter(interval => (
         interval.tempF >= preferences.minTempF &&
         interval.tempF <= preferences.maxTempF
@@ -64,10 +54,10 @@ class Status extends Component {
 
   calculateRainChance = () => {
     // Grab all the rain chances from each hourly array
-    const rainChancesTotal = this.props.forecast.hourly.reduce((total, current) => total + parseInt(current.chanceofrain, 10), 0); // eslint-disable-line
+    const rainChancesTotal = this.props.weather.forecast[0].hourly.reduce((total, current) => total + parseInt(current.chanceofrain, 10), 0); // eslint-disable-line
 
     // Calculate today's rain chance
-    const rainChance = Math.ceil(rainChancesTotal / this.props.forecast.hourly.length);
+    const rainChance = Math.ceil(rainChancesTotal / this.props.weather.forecast[0].hourly.length);
 
     // Decide what message to show the user, based on today's chance of rain
     let rainMessage;
@@ -97,20 +87,23 @@ class Status extends Component {
 
   render() {
     // Grab variables out of props
-    const { temp_F, temp_C, windspeedMiles } = this.props.currentCondition;
-    const {
-      maxtempF, maxtempC, mintempF, mintempC,
-    } = this.props.forecast;
-    const rainMessage = this.calculateRainChance();
+    const { temp_F, temp_C, windspeedMiles } = this.props.weather.current_condition;
 
     const { preferencesLoaded } = this.props;
+    const weatherLoaded = this.props.weather.weatherLoaded;
 
-    if (!preferencesLoaded) return <h1>Loading...</h1>;
+    const maxtempF = this.props.weather.forecast[0].maxtempF;
+    const maxtempC = this.props.weather.forecast[0].maxtempC;
+    const mintempF = this.props.weather.forecast[0].mintempF;
+    const mintempC = this.props.weather.forecast[0].mintempC;
+
+    const rainMessage = this.calculateRainChance();
+
+    if (!preferencesLoaded && !weatherLoaded) return <h1>Loading...</h1>;
 
     return (
       <div>
         <h2>Oh, how swell! Looks like today is a great day to ride.</h2>
-
         <h2>Today&apos;s Conditions</h2>
         <h3>Temperature</h3>
         <p>Today&apos;s high is {maxtempF}&#8457; / {maxtempC}&#8451;</p>
@@ -125,7 +118,7 @@ class Status extends Component {
 
         <h2>Best times to ride today</h2>
 
-        {this.props.forecast.hourly.map(interval => (
+        {this.props.weather.forecast[0].hourly.map(interval => (
           <Time forecast={interval} key={interval.time} />
         ))}
 
@@ -138,6 +131,7 @@ class Status extends Component {
 const mapStateToProps = state => ({
   preferences: state.preferences.preferences,
   preferencesLoaded: state.preferences.preferencesLoaded,
+  weather: state.weather,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
