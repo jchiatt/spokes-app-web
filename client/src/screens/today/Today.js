@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Status from '../../screens/today/Status';
 
@@ -11,8 +10,3 @@ const Today = () => (
 );
 
 export default Today;
-
-Today.propTypes = {
-  currentCondition: PropTypes.object.isRequired, // eslint-disable-line
-  loggedIn: PropTypes.bool.isRequired, // eslint-disable-line
-};
