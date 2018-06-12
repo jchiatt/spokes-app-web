@@ -87,15 +87,21 @@ class Status extends Component {
 
   render() {
     // Grab variables out of props
-    const { temp_F, temp_C, windspeedMiles } = this.props.weather.current_condition;
+    const {
+      temp_F,
+      temp_C,
+      windspeedMiles,
+    } = this.props.weather.current_condition;
 
     const { preferencesLoaded } = this.props;
-    const weatherLoaded = this.props.weather.weatherLoaded;
+    const { weatherLoaded } = this.props.weather;
 
-    const maxtempF = this.props.weather.forecast[0].maxtempF;
-    const maxtempC = this.props.weather.forecast[0].maxtempC;
-    const mintempF = this.props.weather.forecast[0].mintempF;
-    const mintempC = this.props.weather.forecast[0].mintempC;
+    const {
+      maxtempF,
+      maxtempC,
+      mintempF,
+      mintempC,
+    } = this.props.weather.forecast[0];
 
     const rainMessage = this.calculateRainChance();
 
@@ -141,5 +147,17 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(mapStateToProps, mapDispatchToProps)(Status);
 
 Status.propTypes = {
+  preferences: PropTypes.shape({
+    maxHumidity: PropTypes.number,
+    maxRainChance: PropTypes.number,
+    maxTempC: PropTypes.number,
+    maxTempF: PropTypes.number,
+    maxWindSpeed: PropTypes.number,
+    minRainChance: PropTypes.number,
+    minTempC: PropTypes.number,
+    minTempF: PropTypes.number,
+    minWindSpeed: PropTypes.number,
+  }).isRequired,
   preferencesLoaded: PropTypes.bool.isRequired,
+  weather: PropTypes.object.isRequired, // eslint-disable-line
 };

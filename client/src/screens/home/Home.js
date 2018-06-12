@@ -1,13 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import LocationSearch from '../../components/global/LocationSearch';
 
-const Home = ({ updateWeather }) => (
+const Home = () => (
   <div>
-    <LocationSearch
-      updateWeather={updateWeather}
-    />
+    <LocationSearch />
   </div>
 );
 

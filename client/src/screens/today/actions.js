@@ -1,3 +1,5 @@
+/* eslint func-names: 0 */
+
 import axios from 'axios';
 import { WEATHER_API_ROOT } from '../../api-config';
 

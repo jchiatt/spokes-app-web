@@ -1,5 +1,6 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -7,6 +8,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Header from './components/global/Header';
@@ -15,10 +17,16 @@ import Today from './screens/today/Today';
 import Forecast from './screens/forecast/Forecast';
 import Preferences from './screens/preferences/Preferences';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
 class App extends Component {
+  static propTypes = {
+    session: PropTypes.shape({
+      loggedIn: PropTypes.bool,
+    }).isRequired,
+    weather: PropTypes.shape({
+      weatherLoaded: PropTypes.bool.isRequired,
+    }).isRequired,
+  }
+
   render() {
     const { loggedIn } = this.props.session;
     const { weatherLoaded } = this.props.weather;

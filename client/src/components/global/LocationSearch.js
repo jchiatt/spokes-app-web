@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import styled from 'styled-components';
 
 import { connect } from 'react-redux';
@@ -13,7 +12,6 @@ import { getForecast } from '../../screens/today/actions';
 class LocationSearch extends Component {
   static propTypes = {
     handleSession: PropTypes.func.isRequired,
-    updateWeather: PropTypes.func.isRequired,
   }
 
   state = {
@@ -28,7 +26,7 @@ class LocationSearch extends Component {
   handleZipSubmit = (event) => {
     event.preventDefault();
 
-    const { getForecast, handleSession } = this.props;
+    const { getForecast, handleSession } = this.props; // eslint-disable-line
 
     getForecast(this.state.zip);
 

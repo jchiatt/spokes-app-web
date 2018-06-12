@@ -13,7 +13,7 @@ import { handleSession } from '../../actions';
 
 import logo from '../../logo.svg';
 
-const Header = ({ handleSession, loggedIn }) => (
+const Header = ({ handleSession, loggedIn }) => ( // eslint-disable-line
   <HeaderContainer>
     <LogoContainer>
       <Link to="/">
@@ -44,6 +44,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+Header.propTypes = {
+  handleSession: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+};
 
 const HeaderContainer = styled.header`
   display: flex;
